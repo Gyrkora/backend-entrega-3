@@ -1,4 +1,5 @@
 import fs from 'fs'
+import { runInThisContext } from 'vm'
 
 //# El archivo para leer
 let productsList = JSON.parse(fs.readFileSync('./productos.json'))
@@ -19,7 +20,7 @@ const product3 = {
 	thumbnail: 'foto',
 }
 
-class Contenedor {
+export class Contenedor {
 	constructor(nombreArchivo) {
 		this.nombreArchivo = nombreArchivo
 	}
@@ -67,7 +68,7 @@ class Contenedor {
 	getAll() {
 		if (this.nombreArchivo) {
 			const allProducts = [...this.nombreArchivo]
-			console.log(allProducts)
+			return allProducts
 		} else {
 			console.log('aún hay productos en el archivo')
 		}
@@ -103,9 +104,30 @@ class Contenedor {
 			throw new Error(`esto es un error: ${err.message}`)
 		}
 	}
+
+	//producto random
+	async getRandomProduct() {
+		try {
+			let randomNum = Math.floor(Math.random() * this.nombreArchivo.length + 1)
+			const getRandom = this.nombreArchivo[randomNum]
+			return getRandom
+		} catch (err) {
+			console.log(`hubo un error ${err.message}`)
+		}
+	}
 }
 
-const productos = new Contenedor(productsList)
+export const productos = new Contenedor(productsList)
+
+//# Escritura de productos.txt
+
+// fs.writeFile(
+// 	'./productos.txt',
+// 	JSON.stringify(productsList, null, 2),
+// 	(err) => {
+// 		if (err) throw new Error(`No se puede leer el archivo> ${err.message}`)
+// 	}
+// )
 
 // productos.save(product1)
 // productos.save(product2)

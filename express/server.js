@@ -9,32 +9,41 @@ Antes de iniciar el servidor, colocar en el archivo 'productos.txt' tres product
  */
 
 import express from 'express'
-// import productos from 'productos.json'
+import { Contenedor } from './productos.js'
+import fs from 'fs'
 
 const app = express()
 
+const db = JSON.parse(fs.readFileSync('./productos.txt', 'utf-8'))
+
+const prods = new Contenedor(db)
+
 app.get('/', (req, res) => {
-	res.send('Este es el inicio')
+	res.send('Este es el inicio ')
 })
 
-// a) Ruta get '/productos' que devuelva un array con todos los productos disponibles en el servidor
-app.get('/productos', (req, res) => {
-	res.send(`acá van los productos`)
+// a) Ruta get '/productos' que devuelva un array con todos los productos dsisponibles en el servidor
+app.get('/productos', async (req, res) => {
+	const getAll = await prods.getAll()
+	res.send(getAll)
 })
 
 //b) Ruta get '/productoRandom' que devuelva un producto elegido al azar entre todos los productos disponibles
-app.get('/productosRandom', (req, res) => {
-	res.send(`acá productos random`)
+
+// const prodRandom = () => {
+// 	let randomNum = Math.floor(Math.random() * db.length + 1)
+// 	const getRandom = db[randomNum]
+// 	return getRandom
+// 	// return db.length
+// }
+
+app.get('/productosRandom', async (req, res) => {
+	const getRandom = await prods.getRandomProduct()
+	res.send(getRandom)
 })
 
 const PORT = 8080
 
 app.listen(PORT, () => {
-	console.log('servidor http en puerto 3000')
+	console.log(`corriendo`)
 })
-
-// app.get('/fyh', (req, res) => {
-// 	res.send({
-// 		fyh: `${new Date().getDay()}/${new Date().getMonth()}/${new Date().getFullYear()} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`,
-// 	})
-// })
