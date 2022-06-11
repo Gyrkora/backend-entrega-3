@@ -108,7 +108,7 @@ export class Contenedor {
 	//producto random
 	async getRandomProduct() {
 		try {
-			let randomNum = Math.floor(Math.random() * this.nombreArchivo.length + 1)
+			let randomNum = Math.floor(Math.random() * this.nombreArchivo.length)
 			const getRandom = this.nombreArchivo[randomNum]
 			return getRandom
 		} catch (err) {

@@ -31,13 +31,13 @@ app.get('/productos', async (req, res) => {
 //b) Ruta get '/productoRandom' que devuelva un producto elegido al azar entre todos los productos disponibles
 
 // const prodRandom = () => {
-// 	let randomNum = Math.floor(Math.random() * db.length + 1)
+// 	let randomNum = Math.floor(Math.random() * db.length)
 // 	const getRandom = db[randomNum]
 // 	return getRandom
 // 	// return db.length
 // }
 
-app.get('/productosRandom', async (req, res) => {
+app.get('/productoRandom', async (req, res) => {
 	const getRandom = await prods.getRandomProduct()
 	res.send(getRandom)
 })
